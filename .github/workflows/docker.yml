@@ -81,8 +81,7 @@ jobs:
           tags: |
             techblog/sophos-exporter:latest
             techblog/sophos-exporter:${{ steps.version.outputs.version }}
-            ghcr.io/t0mer/sophos-exporter:latest
-            ghcr.io/t0mer/sophos-exporter:${{ steps.version.outputs.version }}
+
 
       # Tag AFTER a successful push so the next manual run increments. Skipped on
       # Release-driven runs (the Release workflow owns its tag).

@@ -1,0 +1,15 @@
+.git
+.github
+dist
+scans
+docs
+*.md
+!README.md
+CLAUDE.md
+config.yml
+*.local.yml
+.env
+*.log
+mibs
+dashboards
+deploy

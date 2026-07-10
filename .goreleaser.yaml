@@ -48,53 +48,9 @@ checksum:
 snapshot:
   version_template: "{{ incpatch .Version }}-next"
 
-# Per-arch images (arm64 is a first-class target for the home-lab deployment).
-dockers:
-  - image_templates:
-      - "techblog/sophos-exporter:{{ .Version }}-amd64"
-      - "ghcr.io/t0mer/sophos-exporter:{{ .Version }}-amd64"
-    use: buildx
-    goos: linux
-    goarch: amd64
-    dockerfile: Dockerfile
-    build_flag_templates:
-      - "--platform=linux/amd64"
-      - "--label=org.opencontainers.image.title=sophos-exporter"
-      - "--label=org.opencontainers.image.version={{ .Version }}"
-      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.source=https://github.com/t0mer/sophos-exporter"
-  - image_templates:
-      - "techblog/sophos-exporter:{{ .Version }}-arm64"
-      - "ghcr.io/t0mer/sophos-exporter:{{ .Version }}-arm64"
-    use: buildx
-    goos: linux
-    goarch: arm64
-    dockerfile: Dockerfile
-    build_flag_templates:
-      - "--platform=linux/arm64"
-      - "--label=org.opencontainers.image.title=sophos-exporter"
-      - "--label=org.opencontainers.image.version={{ .Version }}"
-      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.source=https://github.com/t0mer/sophos-exporter"
-
-# Multi-arch manifests: :<version> and :latest on both registries.
-docker_manifests:
-  - name_template: "techblog/sophos-exporter:{{ .Version }}"
-    image_templates:
-      - "techblog/sophos-exporter:{{ .Version }}-amd64"
-      - "techblog/sophos-exporter:{{ .Version }}-arm64"
-  - name_template: "techblog/sophos-exporter:latest"
-    image_templates:
-      - "techblog/sophos-exporter:{{ .Version }}-amd64"
-      - "techblog/sophos-exporter:{{ .Version }}-arm64"
-  - name_template: "ghcr.io/t0mer/sophos-exporter:{{ .Version }}"
-    image_templates:
-      - "ghcr.io/t0mer/sophos-exporter:{{ .Version }}-amd64"
-      - "ghcr.io/t0mer/sophos-exporter:{{ .Version }}-arm64"
-  - name_template: "ghcr.io/t0mer/sophos-exporter:latest"
-    image_templates:
-      - "ghcr.io/t0mer/sophos-exporter:{{ .Version }}-amd64"
-      - "ghcr.io/t0mer/sophos-exporter:{{ .Version }}-arm64"
+# Docker images are intentionally NOT built here. Image publishing is decoupled
+# into .github/workflows/docker.yml (multi-arch buildx: amd64/arm64/arm/v7),
+# triggered on Release completion or manual dispatch. See docker-releases.md.
 
 release:
   github:

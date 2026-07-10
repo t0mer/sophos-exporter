@@ -93,10 +93,33 @@ func setDefaults(v *viper.Viper) {
 	v.SetDefault("collectors.vpn", false)
 }
 
-// Load resolves the configuration from (in precedence order) flags, environment,
-// and the YAML config file. cfgFile, when non-empty, overrides the search path.
-// flags may be nil (e.g. in tests); when provided its bound values win.
+// Load resolves and validates the configuration from (in precedence order)
+// flags, environment, and the YAML config file. cfgFile, when non-empty,
+// overrides the search path. flags may be nil (e.g. in tests).
 func Load(cfgFile string, flags *pflag.FlagSet) (*Config, error) {
+	cfg, err := resolve(cfgFile, flags)
+	if err != nil {
+		return nil, err
+	}
+	if err := cfg.Validate(); err != nil {
+		return nil, err
+	}
+	return cfg, nil
+}
+
+// ListenAddress resolves only the listen address, skipping SNMP validation. It
+// backs the healthcheck subcommand, which must work even when SNMP is
+// unconfigured (e.g. inside a container HEALTHCHECK).
+func ListenAddress(cfgFile string, flags *pflag.FlagSet) (string, error) {
+	cfg, err := resolve(cfgFile, flags)
+	if err != nil {
+		return "", err
+	}
+	return cfg.Listen, nil
+}
+
+// resolve applies the flags > env > YAML > defaults precedence without validating.
+func resolve(cfgFile string, flags *pflag.FlagSet) (*Config, error) {
 	v := viper.New()
 	setDefaults(v)
 
@@ -139,10 +162,6 @@ func Load(cfgFile string, flags *pflag.FlagSet) (*Config, error) {
 	var cfg Config
 	if err := v.Unmarshal(&cfg); err != nil {
 		return nil, fmt.Errorf("unmarshalling config: %w", err)
-	}
-
-	if err := cfg.Validate(); err != nil {
-		return nil, err
 	}
 	return &cfg, nil
 }

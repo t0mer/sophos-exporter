@@ -70,11 +70,11 @@ func healthcheckCmd(cfgFile *string) *cobra.Command {
 		Use:   "healthcheck",
 		Short: "Probe the local /healthz endpoint (exit 0 = healthy)",
 		RunE: func(cmd *cobra.Command, _ []string) error {
-			cfg, err := config.Load(*cfgFile, cmd.Root().PersistentFlags())
+			listen, err := config.ListenAddress(*cfgFile, cmd.Root().PersistentFlags())
 			if err != nil {
 				return err
 			}
-			url := "http://" + hostPort(cfg.Listen) + "/healthz"
+			url := "http://" + hostPort(listen) + "/healthz"
 			ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 			defer cancel()
 			req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)

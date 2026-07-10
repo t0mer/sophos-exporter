@@ -5,6 +5,7 @@
 package snmp
 
 import (
+	"context"
 	"fmt"
 	"net"
 	"strconv"
@@ -164,12 +165,14 @@ func splitTarget(target string) (string, uint16, error) {
 	return host, uint16(port), nil
 }
 
-// Connect builds the client from cfg and opens the UDP socket.
-func Connect(cfg config.SNMPConfig) (*Client, error) {
+// Connect builds the client from cfg and opens the UDP socket. ctx bounds the
+// overall scrape (gosnmp honours it as a deadline/cancellation across ops).
+func Connect(ctx context.Context, cfg config.SNMPConfig) (*Client, error) {
 	g, err := build(cfg)
 	if err != nil {
 		return nil, err
 	}
+	g.Context = ctx
 	if err := g.Connect(); err != nil {
 		return nil, fmt.Errorf("snmp connect to %s: %w", cfg.Target, err)
 	}

@@ -1,0 +1,23 @@
+# Local/production deployment for sophos-exporter.
+#
+# Secrets (community / auth_password / priv_password) are supplied via environment
+# variables and should come from a .env file or your secrets manager — never
+# commit them. Non-secret settings can live in a mounted config.yml instead.
+services:
+  sophos-exporter:
+    image: techblog/sophos-exporter:latest
+    container_name: sophos-exporter
+    ports:
+      - "9835:9835"
+    environment:
+      LOG_LEVEL: info
+      SOPHOS_EXPORTER_SNMP_TARGET: "192.168.1.1:161"
+      SOPHOS_EXPORTER_SNMP_VERSION: "3"
+      SOPHOS_EXPORTER_SNMP_USERNAME: "monitor"
+      SOPHOS_EXPORTER_SNMP_SECURITY_LEVEL: "authPriv"
+      SOPHOS_EXPORTER_SNMP_AUTH_PROTOCOL: "SHA"
+      SOPHOS_EXPORTER_SNMP_PRIV_PROTOCOL: "AES"
+      # Secrets — set these in a .env file next to this compose file:
+      SOPHOS_EXPORTER_SNMP_AUTH_PASSWORD: "${SOPHOS_AUTH_PASSWORD:?set in .env}"
+      SOPHOS_EXPORTER_SNMP_PRIV_PASSWORD: "${SOPHOS_PRIV_PASSWORD:?set in .env}"
+    restart: unless-stopped

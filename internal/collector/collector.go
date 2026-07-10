@@ -122,7 +122,7 @@ func (c *Collector) Collect(ch chan<- prometheus.Metric) {
 		ch <- prometheus.MustNewConstMetric(c.up, prometheus.GaugeValue, 0)
 		return
 	}
-	defer q.Close()
+	defer func() { _ = q.Close() }()
 
 	allOK := true
 	for _, s := range c.subs {

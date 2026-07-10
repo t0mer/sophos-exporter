@@ -57,7 +57,7 @@ func versionCmd() *cobra.Command {
 		Use:   "version",
 		Short: "Print version and build metadata",
 		Run: func(cmd *cobra.Command, _ []string) {
-			fmt.Fprintf(cmd.OutOrStdout(), "sophos-exporter %s (commit %s, built %s)\n",
+			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "sophos-exporter %s (commit %s, built %s)\n",
 				version.Version, version.Commit, version.Date)
 		},
 	}
@@ -85,7 +85,7 @@ func healthcheckCmd(cfgFile *string) *cobra.Command {
 			if err != nil {
 				return fmt.Errorf("healthcheck: %w", err)
 			}
-			defer resp.Body.Close()
+			defer func() { _ = resp.Body.Close() }()
 			if resp.StatusCode != http.StatusOK {
 				return fmt.Errorf("healthcheck: status %d", resp.StatusCode)
 			}

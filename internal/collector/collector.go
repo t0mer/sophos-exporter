@@ -62,7 +62,9 @@ func New(cfg config.Config, log *slog.Logger) *Collector {
 	if cfg.Collectors.Interfaces {
 		subs = append(subs, newInterfacesCollector())
 	}
-	// vpn sub-collector is wired in P5.
+	if cfg.Collectors.VPN {
+		subs = append(subs, newVPNCollector())
+	}
 
 	return &Collector{
 		cfg:  cfg,

@@ -41,8 +41,13 @@ const (
 	// 5.5 sfosXGLicenseDetails (.5) — 9 modules; .<n>.1 status, .<n>.2 expiry.
 	oidLicenseBase = base + ".5"
 
-	// 5.7 sfosXGTunnelInfo (.6) — IPsec tunnel table.
+	// 5.7 sfosXGTunnelInfo (.6) — IPsec tunnel table entry columns.
 	oidIPSecTunnelEntry = base + ".6.1.1.1"
+	oidVPNConnName      = oidIPSecTunnelEntry + ".2" // DisplayString
+	oidVPNConnMode      = oidIPSecTunnelEntry + ".5" // DisplayString
+	oidVPNConnType      = oidIPSecTunnelEntry + ".6" // IPSecVPNConnectionType enum
+	oidVPNActiveTunnel  = oidIPSecTunnelEntry + ".8" // Integer32
+	oidVPNConnStatus    = oidIPSecTunnelEntry + ".9" // IPSecVPNConnectionStatus enum
 
 	// HOST-RESOURCES-MIB::hrProcessorLoad — walk, per-core CPU (Integer 0..100).
 	oidHrProcessorLoad = "1.3.6.1.2.1.25.3.3.1.2"

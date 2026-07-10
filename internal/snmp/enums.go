@@ -71,6 +71,30 @@ func (s LicenseStatus) String() string {
 	return "unknown"
 }
 
+// VPNConnType is the SFOS IPSecVPNConnectionType enumeration.
+type VPNConnType int
+
+// VPNConnType values.
+const (
+	VPNHostToHost      VPNConnType = 1
+	VPNSiteToSite      VPNConnType = 2
+	VPNTunnelInterface VPNConnType = 3
+)
+
+var vpnConnTypeNames = map[VPNConnType]string{
+	VPNHostToHost:      "host-to-host",
+	VPNSiteToSite:      "site-to-site",
+	VPNTunnelInterface: "tunnel-interface",
+}
+
+// String returns the enum name, or "unknown" for out-of-range values.
+func (t VPNConnType) String() string {
+	if n, ok := vpnConnTypeNames[t]; ok {
+		return n
+	}
+	return "unknown"
+}
+
 // HAState is the SFOS HaState enumeration.
 type HAState int
 

@@ -109,7 +109,7 @@ func run(cfgFile string, cmd *cobra.Command) error {
 
 	reg := prometheus.NewRegistry()
 	reg.MustRegister(collector.NewBuildInfo())
-	reg.MustRegister(collector.New())
+	reg.MustRegister(collector.New(*cfg, log))
 
 	srv := httpserver.New(cfg.Listen, reg, log)
 

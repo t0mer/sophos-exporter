@@ -1,0 +1,13 @@
+# Example Prometheus scrape config for sophos-exporter.
+#
+# Note: the exporter reads SNMP live on each scrape. Give it enough headroom —
+# set scrape_timeout comfortably above snmp.timeout * retries so a slow firewall
+# reply does not abort the scrape. Keep snmp.timeout modest (2–5s).
+scrape_configs:
+  - job_name: sophos-exporter
+    scrape_interval: 60s
+    scrape_timeout: 30s
+    static_configs:
+      - targets: ["sophos-exporter:9835"]
+        labels:
+          instance: sophos-firewall

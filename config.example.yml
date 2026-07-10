@@ -1,0 +1,38 @@
+# sophos-exporter example configuration.
+#
+# Precedence: flags > env (SOPHOS_EXPORTER_) > this file.
+# Search path when --config is not given: ./config.yml then /etc/sophos-exporter/config.yml.
+#
+# Copy to config.yml and fill in secrets. config.yml is gitignored — never commit
+# a populated config. Secrets can also be supplied via environment variables:
+#   SOPHOS_EXPORTER_SNMP_COMMUNITY
+#   SOPHOS_EXPORTER_SNMP_AUTH_PASSWORD
+#   SOPHOS_EXPORTER_SNMP_PRIV_PASSWORD
+
+listen: ":9835"          # HTTP listen address for /metrics and /healthz
+log_level: "info"        # debug | info | warn | error
+
+snmp:
+  target: "192.168.1.1:161"
+  version: "3"           # "2c" | "3" — both fully supported
+  timeout: "5s"
+  retries: 1
+
+  # --- SNMPv2c (used when version == "2c") ---
+  community: ""          # required for v2c; cleartext on the wire — keep on a mgmt zone
+
+  # --- SNMPv3 (used when version == "3") ---
+  security_level: "authPriv"   # authPriv | authNoPriv | noAuthNoPriv (discouraged)
+  username: ""
+  auth_protocol: "SHA"         # SHA family
+  auth_password: ""
+  priv_protocol: "AES"         # AES family; used only at authPriv
+  priv_password: ""
+
+collectors:
+  device: true
+  interfaces: true
+  services: true
+  license: true
+  hits: true
+  vpn: false             # IPsec tunnel table; enable only if IPsec is configured

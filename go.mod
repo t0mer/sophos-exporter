@@ -4,6 +4,7 @@ go 1.25
 
 require (
 	github.com/go-chi/chi/v5 v5.3.1
+	github.com/gosnmp/gosnmp v1.43.2
 	github.com/prometheus/client_golang v1.23.2
 	github.com/spf13/cobra v1.10.2
 	github.com/spf13/pflag v1.0.10
@@ -28,7 +29,7 @@ require (
 	github.com/subosito/gotenv v1.6.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
-	golang.org/x/sys v0.35.0 // indirect
+	golang.org/x/sys v0.40.0 // indirect
 	golang.org/x/text v0.28.0 // indirect
 	google.golang.org/protobuf v1.36.8 // indirect
 )

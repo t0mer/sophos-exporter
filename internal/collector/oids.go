@@ -35,7 +35,7 @@ const (
 	oidServiceBase = base + ".3"
 
 	// 5.4 sfosXGHAStats (.4).
-	oidHAStatus     = base + ".4.1.0" // disabled(0) enabled(1)
+	oidHAStatus       = base + ".4.1.0" // disabled(0) enabled(1)
 	oidHACurrentState = base + ".4.4.0" // HaState enum
 
 	// 5.5 sfosXGLicenseDetails (.5) — 9 modules; .<n>.1 status, .<n>.2 expiry.

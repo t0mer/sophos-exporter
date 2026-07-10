@@ -122,14 +122,14 @@ func TestDeviceCollector(t *testing.T) {
 	got := gather(t, newDeviceCollector(), q)
 
 	checks := map[string]float64{
-		"sophos_uptime_seconds":                    1000,
-		"sophos_live_users":                        5,
-		"sophos_memory_usage_percent":              40,
-		"sophos_memory_capacity_bytes":             2048 * 1024 * 1024,
-		"sophos_disk_capacity_bytes":               10240 * 1024 * 1024,
-		"sophos_cpu_usage_percent,core=1":          10,
-		"sophos_cpu_usage_percent,core=2":          30,
-		"sophos_cpu_usage_percent,core=avg":        20,
+		"sophos_uptime_seconds":             1000,
+		"sophos_live_users":                 5,
+		"sophos_memory_usage_percent":       40,
+		"sophos_memory_capacity_bytes":      2048 * 1024 * 1024,
+		"sophos_disk_capacity_bytes":        10240 * 1024 * 1024,
+		"sophos_cpu_usage_percent,core=1":   10,
+		"sophos_cpu_usage_percent,core=2":   30,
+		"sophos_cpu_usage_percent,core=avg": 20,
 		"sophos_device_info,appkey=APPKEY,firmware=SFOS 22.0.1 MR-1,ips_version=9.8,model=SFVH,name=fw,webcat_version=1.2": 1,
 	}
 	for k, want := range checks {

@@ -53,7 +53,13 @@ func New(cfg config.Config, log *slog.Logger) *Collector {
 	if cfg.Collectors.Hits {
 		subs = append(subs, newHitsCollector())
 	}
-	// services, license, interfaces and vpn sub-collectors are wired in P3–P5.
+	if cfg.Collectors.Services {
+		subs = append(subs, newServicesCollector())
+	}
+	if cfg.Collectors.License {
+		subs = append(subs, newLicenseCollector())
+	}
+	// interfaces and vpn sub-collectors are wired in P4–P5.
 
 	return &Collector{
 		cfg:  cfg,
